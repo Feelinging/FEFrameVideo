@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "FEFrameVideoRecorder.h"
 #import "FEFrameVideoItem.h"
-#import "FEFrameVideoConstant.h"
 
 @class FEFrameVideoPickerController;
 

@@ -7,22 +7,25 @@
 //
 
 #import "FEFrameVideoRecorder.h"
+#import <CoreImage/CoreImage.h>
 
 typedef (^PropertyChangeBlock) (AVCaptureDevice *device);
 
-@interface FEFrameVideoRecorder ()
+@interface FEFrameVideoRecorder ()<AVCaptureVideoDataOutputSampleBufferDelegate>
 
 // AVCapture
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 
 @property (nonatomic, strong) AVCaptureDeviceInput *captureDeviceInput;
 
-@property (nonatomic, strong) AVCaptureStillImageOutput *captureOutput;
+@property (nonatomic, strong) AVCaptureVideoDataOutput *captureOutput;
 
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 
 
 // screenShot
+@property (nonatomic, strong) UIImage *currentBufferImage;
+
 @property (nonatomic, weak) NSTimer *screenShotTimer;
 
 @property (nonatomic, assign) NSUInteger screenShotTotalFrames;
@@ -65,9 +68,12 @@ typedef (^PropertyChangeBlock) (AVCaptureDevice *device);
     _videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     _videoPreviewLayer.masksToBounds = YES;
     
-    _captureOutput = [[AVCaptureStillImageOutput alloc] init];
-    NSDictionary *outputSettings = @{AVVideoCodecKey:AVVideoCodecJPEG};
-    [_captureOutput setOutputSettings:outputSettings];
+    _captureOutput = [[AVCaptureVideoDataOutput alloc] init];
+    [_captureOutput setSampleBufferDelegate:self queue:dispatch_queue_create("com.feeling.recorderOutput", DISPATCH_QUEUE_SERIAL)];
+    
+    _captureOutput.videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSNumber numberWithInt:kCVPixelFormatType_32BGRA], kCVPixelBufferPixelFormatTypeKey,
+                            nil];
     
     if ([_captureSession canAddOutput:_captureOutput]) {
         [_captureSession addOutput:_captureOutput];
@@ -105,6 +111,12 @@ typedef (^PropertyChangeBlock) (AVCaptureDevice *device);
     self.screenShotTimer = timer;
 }
 
+#pragma mark AVCaptureVideoDataOutputSampleBufferDelegate
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
+    if (sampleBuffer) {
+        self.currentBufferImage = [self getImageFromSampleBufferRef:sampleBuffer];
+    }
+}
 
 #pragma mark private method
 /**
@@ -166,28 +178,60 @@ typedef (^PropertyChangeBlock) (AVCaptureDevice *device);
 }
 
 - (void)screenShotTimerInvoke:(NSTimer *)timer {
-    //根据设备输出获得连接
-    AVCaptureConnection *captureConnection=[self.captureOutput connectionWithMediaType:AVMediaTypeVideo];
-    
-    //根据连接取得设备输出的数据
-    [self.captureOutput captureStillImageAsynchronouslyFromConnection:captureConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-        if (imageDataSampleBuffer) {
-            NSData *imageData=[AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-            
-            [self.imageDatas addObject:imageData];
-            
-            if (self.imageDatas.count == self.screenShotTotalFrames) {
-                if (self.screenShotCompleteHandler) {
-                    self.screenShotCompleteHandler([FEFrameVideoItem itemWithDatas:self.imageDatas.copy], nil);
-                    self.screenShotCompleteHandler = nil;
-                }
-                
-                [timer invalidate];
-                
-                self.screenShotTimer = nil;
+    NSData *data = UIImageJPEGRepresentation(self.currentBufferImage, 0.9);
+    if (data) {
+        [self.imageDatas addObject:data];
+        if (self.imageDatas.count >= self.screenShotTotalFrames) {
+            if (self.screenShotCompleteHandler) {
+                self.screenShotCompleteHandler([FEFrameVideoItem itemWithDatas:self.imageDatas.copy], nil);
             }
+            [timer invalidate];
+            self.screenShotTimer = nil;
         }
-    }];
+    }
+}
+
+- (UIImage *)getImageFromSampleBufferRef:(CMSampleBufferRef)sampleBuffer {
+    CMSampleBufferRef retainedBuffer = sampleBuffer;
+    
+    // Get a CMSampleBuffer's Core Video image buffer for the media data
+    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    
+    // Lock the base address of the pixel buffer
+    CVPixelBufferLockBaseAddress(imageBuffer, 0);
+    
+    // Get the number of bytes per row for the pixel buffer
+    void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
+    
+    // Get the number of bytes per row for the pixel buffer
+    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+    // Get the pixel buffer width and height
+    size_t width = CVPixelBufferGetWidth(imageBuffer);
+    size_t height = CVPixelBufferGetHeight(imageBuffer);
+    
+    // Create a device-dependent RGB color space
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    // Create a bitmap graphics context with the sample buffer data
+    CGContextRef context = CGBitmapContextCreate(baseAddress, width, height, 8,
+                                                 bytesPerRow, colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
+    // Create a Quartz image from the pixel data in the bitmap graphics context
+    CGImageRef quartzImage = CGBitmapContextCreateImage(context);
+    // Unlock the pixel buffer
+    CVPixelBufferUnlockBaseAddress(imageBuffer,0);
+    
+    // Free up the context and color space
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+    
+    // Create an image object from the Quartz image
+    //UIImage *image = [UIImage imageWithCGImage:quartzImage];
+    UIImage *image = [UIImage imageWithCGImage:quartzImage scale:[UIScreen mainScreen].scale orientation:UIImageOrientationRight];
+    
+    // Release the Quartz image
+    CGImageRelease(quartzImage);
+    
+    return (image);
 }
 
 #pragma mark getter&&setter

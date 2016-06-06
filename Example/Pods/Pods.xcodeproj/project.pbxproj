@@ -17,7 +17,6 @@
 		C9879C2ED30DC772D2C96CCE20E88456 /* Pods-FEFrameVideo_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E0B9971745C6487A408EE46E757C5E /* Pods-FEFrameVideo_Example-dummy.m */; };
 		D667AEC91D052ACB00619776 /* FEFrameVideoRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = D667AEC71D052ACB00619776 /* FEFrameVideoRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D667AECA1D052ACB00619776 /* FEFrameVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = D667AEC81D052ACB00619776 /* FEFrameVideoRecorder.m */; };
-		D667AECE1D0554F000619776 /* FEFrameVideoConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = D667AECB1D052DDF00619776 /* FEFrameVideoConstant.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D667AED91D055F8700619776 /* FEFrameVideoPickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = D667AED71D055F8700619776 /* FEFrameVideoPickerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D667AEDA1D055F8700619776 /* FEFrameVideoPickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = D667AED71D055F8700619776 /* FEFrameVideoPickerController.h */; };
 		D667AEDB1D055F8700619776 /* FEFrameVideoPickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = D667AED71D055F8700619776 /* FEFrameVideoPickerController.h */; };
@@ -72,7 +71,6 @@
 		CFC65CE639ADACD5233DB41B33366A79 /* FEFrameVideo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FEFrameVideo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D667AEC71D052ACB00619776 /* FEFrameVideoRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FEFrameVideoRecorder.h; sourceTree = "<group>"; };
 		D667AEC81D052ACB00619776 /* FEFrameVideoRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FEFrameVideoRecorder.m; sourceTree = "<group>"; };
-		D667AECB1D052DDF00619776 /* FEFrameVideoConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FEFrameVideoConstant.h; sourceTree = "<group>"; };
 		D667AED71D055F8700619776 /* FEFrameVideoPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FEFrameVideoPickerController.h; sourceTree = "<group>"; };
 		D667AED81D055F8700619776 /* FEFrameVideoPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FEFrameVideoPickerController.m; sourceTree = "<group>"; };
 		D667AEE81D0570AE00619776 /* FEFrameVideoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FEFrameVideoItem.h; sourceTree = "<group>"; };
@@ -237,7 +235,6 @@
 		FB7532D55A97F6B42AF9D1D9AF132691 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				D667AECB1D052DDF00619776 /* FEFrameVideoConstant.h */,
 				D667AEE81D0570AE00619776 /* FEFrameVideoItem.h */,
 				D667AEE91D0570AE00619776 /* FEFrameVideoItem.m */,
 				D667AEC71D052ACB00619776 /* FEFrameVideoRecorder.h */,
@@ -267,7 +264,6 @@
 			files = (
 				94E4810638754E907A218D51898C9761 /* FEFrameVideo-umbrella.h in Headers */,
 				D667AEC91D052ACB00619776 /* FEFrameVideoRecorder.h in Headers */,
-				D667AECE1D0554F000619776 /* FEFrameVideoConstant.h in Headers */,
 				D667AEEA1D0570AE00619776 /* FEFrameVideoItem.h in Headers */,
 				D667AED91D055F8700619776 /* FEFrameVideoPickerController.h in Headers */,
 			);
