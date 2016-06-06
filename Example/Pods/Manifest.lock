@@ -1,0 +1,16 @@
+PODS:
+  - FEFrameVideo (0.1.0)
+
+DEPENDENCIES:
+  - FEFrameVideo (from `../`)
+
+EXTERNAL SOURCES:
+  FEFrameVideo:
+    :path: ../
+
+SPEC CHECKSUMS:
+  FEFrameVideo: 90198dae9e8c0d512205a1e8ab977d2bde235e05
+
+PODFILE CHECKSUM: d6ffdd4dcf943015b0889c5fc601d363f0900899
+
+COCOAPODS: 1.0.0

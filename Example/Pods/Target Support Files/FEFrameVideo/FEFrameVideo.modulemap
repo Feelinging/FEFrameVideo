@@ -1,0 +1,6 @@
+framework module FEFrameVideo {
+  umbrella header "FEFrameVideo-umbrella.h"
+
+  export *
+  module * { export * }
+}

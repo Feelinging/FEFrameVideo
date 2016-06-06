@@ -1,0 +1,22 @@
+{
+  "name": "FEFrameVideo",
+  "version": "0.1.0",
+  "summary": "A short description of FEFrameVideo.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/FEFrameVideo",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Kira": "1027610607@qq.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/FEFrameVideo.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "FEFrameVideo/Classes/**/*"
+}
