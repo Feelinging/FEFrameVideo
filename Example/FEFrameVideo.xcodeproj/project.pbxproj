@@ -21,8 +21,8 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		6AE7B43999785F17CE78F61E /* Pods_FEFrameVideo_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D9AB0FCEBC66CBC9A07241 /* Pods_FEFrameVideo_Tests.framework */; };
-		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
-		FB0345511C4348C47C235051 /* Pods_FEFrameVideo_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 341DEF6D289CD16798F58429 /* Pods_FEFrameVideo_Example.framework */; };
+		D667AED41D05558400619776 /* FEFrameVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D667AECC1D0553EA00619776 /* FEFrameVideo.framework */; };
+		D667AED61D055F1100619776 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D667AED51D055F1100619776 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,10 +61,13 @@
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		63D9AB0FCEBC66CBC9A07241 /* Pods_FEFrameVideo_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FEFrameVideo_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		76C486149DECF4F1A496017C /* Pods-FEFrameVideo_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FEFrameVideo_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-FEFrameVideo_Example/Pods-FEFrameVideo_Example.release.xcconfig"; sourceTree = "<group>"; };
-		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9E1AA8B2CD41787C88FB30B1 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		9FDD4B9568EC9FA85371A97D /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		BA273F1DF56018B05D28F872 /* Pods-FEFrameVideo_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FEFrameVideo_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FEFrameVideo_Tests/Pods-FEFrameVideo_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		D667AECC1D0553EA00619776 /* FEFrameVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FEFrameVideo.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/FEFrameVideo-ekmcjlnfizweyahgfneaxvxjgepl/Build/Products/Debug-iphonesimulator/FEFrameVideo/FEFrameVideo.framework"; sourceTree = "<group>"; };
+		D667AED01D05556C00619776 /* Pods_FEFrameVideo_Example.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_FEFrameVideo_Example.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/FEFrameVideo-ekmcjlnfizweyahgfneaxvxjgepl/Build/Products/Debug-iphonesimulator/Pods_FEFrameVideo_Example.framework"; sourceTree = "<group>"; };
+		D667AED11D05556C00619776 /* Pods_FEFrameVideo_Tests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_FEFrameVideo_Tests.framework; path = "Pods/../build/Debug-iphoneos/Pods_FEFrameVideo_Tests.framework"; sourceTree = "<group>"; };
+		D667AED51D055F1100619776 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,10 +75,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D667AED41D05558400619776 /* FEFrameVideo.framework in Frameworks */,
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				FB0345511C4348C47C235051 /* Pods_FEFrameVideo_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +99,7 @@
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
+				D667AED51D055F1100619776 /* Default-568h@2x.png */,
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				6003F593195388D20070C39A /* Example for FEFrameVideo */,
 				6003F5B5195388D20070C39A /* Tests */,
@@ -117,6 +121,9 @@
 		6003F58C195388D20070C39A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D667AED01D05556C00619776 /* Pods_FEFrameVideo_Example.framework */,
+				D667AED11D05556C00619776 /* Pods_FEFrameVideo_Tests.framework */,
+				D667AECC1D0553EA00619776 /* FEFrameVideo.framework */,
 				6003F58D195388D20070C39A /* Foundation.framework */,
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
@@ -132,7 +139,6 @@
 			children = (
 				6003F59C195388D20070C39A /* FEAppDelegate.h */,
 				6003F59D195388D20070C39A /* FEAppDelegate.m */,
-				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* FEViewController.h */,
 				6003F5A6195388D20070C39A /* FEViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
@@ -279,9 +285,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
+				D667AED61D055F1100619776 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,14 +521,19 @@
 			baseConfigurationReference = 24BF6DDCDD26EA4172E17193 /* Pods-FEFrameVideo_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FEFrameVideo/FEFrameVideo-Prefix.pch";
 				INFOPLIST_FILE = "FEFrameVideo/FEFrameVideo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.feelinging.FEFrameVideo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -532,14 +543,19 @@
 			baseConfigurationReference = 76C486149DECF4F1A496017C /* Pods-FEFrameVideo_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FEFrameVideo/FEFrameVideo-Prefix.pch";
 				INFOPLIST_FILE = "FEFrameVideo/FEFrameVideo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.feelinging.FEFrameVideo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -7,12 +7,21 @@
 //
 
 #import "FEAppDelegate.h"
+#import "FEViewController.h"
+#import "FEFrameVideoPickerController.h"
 
 @implementation FEAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    window.backgroundColor = [UIColor whiteColor];
+    window.rootViewController = [FEFrameVideoPickerController pickerWithInfoBlock:nil];
+    
+    [window makeKeyAndVisible];
+    
+    self.window = window;
     return YES;
 }
 

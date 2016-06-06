@@ -7,6 +7,7 @@
 //
 
 #import "FEViewController.h"
+#import "FEFrameVideoRecorder.h"
 
 @interface FEViewController ()
 
@@ -18,6 +19,14 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    FEFrameVideoRecorder *recorder = [[FEFrameVideoRecorder alloc] initWithCameraPosition:AVCaptureDevicePositionBack];
+    
+    CALayer *layer = recorder.videoPreviewLayer;
+    layer.frame = self.view.bounds;
+    [self.view.layer addSublayer:layer];
+    
+    [recorder startRuning];
 }
 
 - (void)didReceiveMemoryWarning
