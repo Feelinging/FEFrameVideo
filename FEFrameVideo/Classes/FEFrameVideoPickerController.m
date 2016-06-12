@@ -8,6 +8,7 @@
 
 #import "FEFrameVideoPickerController.h"
 #import "FEFrameVideoRecorder.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface FEFrameVideoPickerController ()
 
@@ -62,6 +63,7 @@
     //
     CALayer *videoPreviewLayer = self.recorder.videoPreviewLayer;
     videoPreviewLayer.frame = self.view.bounds;
+    videoPreviewLayer.cornerRadius = 5.f;
     [self.view.layer addSublayer:videoPreviewLayer];
     
     
@@ -88,19 +90,10 @@
     sender.enabled = NO;
     
     __weak typeof(self) weakSelf = self;
-    [self.recorder asyncGetCaputreImagesTotalFrames:16 totalTime:2 handler:^(FEFrameVideoItem *item, NSError *error) {
+    [self.recorder asyncGetCaputreImagesTotalFrames:5 totalTime:1 handler:^(FEFrameVideoItem *item, NSError *error) {
         if (weakSelf.infoBlock) {
             weakSelf.infoBlock(item, weakSelf);
         }
-        
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-        imageView.image = item.reserveAnimatedImage;
-        imageView.animationImages = item.reserveAnimatedImage.images;
-        imageView.animationRepeatCount = YES;
-        imageView.animationDuration = item.reserveAnimatedImage.duration;
-        [imageView startAnimating];
-        [self.view addSubview:imageView];
-        
         sender.enabled = YES;
     }];
 }

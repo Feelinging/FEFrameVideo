@@ -20,8 +20,10 @@
 
 + (instancetype)itemWithDatas:(NSArray<NSData *> *)imageDatas;
 
-- (void)saveGifToAlbum;
+- (void)saveGifToAlbumWithCompletion:(void (^)(BOOL succeed, NSError *error))compltetion;
 
-- (void)saveVideoToAlbum;
+- (void)saveVideoToAlbumWithCompletion:(void (^)(BOOL succeed, NSError *error))completion;
+
+- (NSString *)videoPath;
 
 @end

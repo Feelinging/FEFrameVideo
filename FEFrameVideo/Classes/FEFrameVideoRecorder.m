@@ -9,7 +9,7 @@
 #import "FEFrameVideoRecorder.h"
 #import <CoreImage/CoreImage.h>
 
-typedef (^PropertyChangeBlock) (AVCaptureDevice *device);
+typedef void (^PropertyChangeBlock) (AVCaptureDevice *device);
 
 @interface FEFrameVideoRecorder ()<AVCaptureVideoDataOutputSampleBufferDelegate>
 
@@ -106,14 +106,14 @@ typedef (^PropertyChangeBlock) (AVCaptureDevice *device);
     
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
     
-    [timer fire];
+    [timer setFireDate:[[NSDate date] dateByAddingTimeInterval:0.1]];
     
     self.screenShotTimer = timer;
 }
 
 #pragma mark AVCaptureVideoDataOutputSampleBufferDelegate
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
-    if (sampleBuffer) {
+    if (sampleBuffer && self.screenShotTimer) {
         self.currentBufferImage = [self getImageFromSampleBufferRef:sampleBuffer];
     }
 }
@@ -178,7 +178,7 @@ typedef (^PropertyChangeBlock) (AVCaptureDevice *device);
 }
 
 - (void)screenShotTimerInvoke:(NSTimer *)timer {
-    NSData *data = UIImageJPEGRepresentation(self.currentBufferImage, 0.9);
+    NSData *data = UIImageJPEGRepresentation(self.currentBufferImage, 0.5);
     if (data) {
         [self.imageDatas addObject:data];
         if (self.imageDatas.count >= self.screenShotTotalFrames) {
@@ -230,6 +230,13 @@ typedef (^PropertyChangeBlock) (AVCaptureDevice *device);
     
     // Release the Quartz image
     CGImageRelease(quartzImage);
+    
+    // make rotate
+    CGSize size = CGSizeMake(height/[UIScreen mainScreen].scale, width/[UIScreen mainScreen].scale);
+    UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
     
     return (image);
 }
