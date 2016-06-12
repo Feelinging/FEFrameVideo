@@ -7,7 +7,6 @@
 //
 
 #import "FEAppDelegate.h"
-#import "FEViewController.h"
 #import "FEFrameVideoPickerController.h"
 
 @implementation FEAppDelegate
