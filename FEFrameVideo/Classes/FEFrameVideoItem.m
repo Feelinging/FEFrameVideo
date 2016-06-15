@@ -115,13 +115,14 @@ static inline CVPixelBufferRef ff_convertUIImageToBuffer(CGImageRef image , CGSi
 @synthesize animatedImage = _animatedImage, reserveAnimatedImage = _reserveAnimatedImage;
 
 #pragma mark initialize
-+ (instancetype)itemWithDatas:(NSArray<NSData *> *)imageDatas {
-    return [[self alloc] initWithDatas:imageDatas];
++ (instancetype)itemWithDatas:(NSArray<NSData *> *)imageDatas fps:(CGFloat)fps {
+    return [[self alloc] initWithDatas:imageDatas fps:fps];
 }
 
-- (instancetype)initWithDatas:(NSArray<NSData *> *)imageDatas {
+- (instancetype)initWithDatas:(NSArray<NSData *> *)imageDatas fps:(CGFloat)fps {
     if (self = [super init]) {
         _imageDatas = imageDatas;
+        _fps = fps;
     }
     return self;
 }
@@ -169,10 +170,15 @@ static inline CVPixelBufferRef ff_convertUIImageToBuffer(CGImageRef image , CGSi
                 return;
             }
             
+            UIImage *sample = self.reserveAnimatedImage.images[0];
+            
+            CGFloat width = sample.size.width * sample.scale;
+            CGFloat height = sample.size.height * sample.scale;
+            
             NSDictionary *videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:
                                            AVVideoCodecH264, AVVideoCodecKey,
-                                           [NSNumber numberWithInt:720], AVVideoWidthKey,
-                                           [NSNumber numberWithInt:1280], AVVideoHeightKey,
+                                           [NSNumber numberWithInt:width], AVVideoWidthKey,
+                                           [NSNumber numberWithInt:height], AVVideoHeightKey,
                                            nil];
             
             AVAssetWriterInput* writerInput = [AVAssetWriterInput
@@ -187,7 +193,9 @@ static inline CVPixelBufferRef ff_convertUIImageToBuffer(CGImageRef image , CGSi
             
             if (!writerInput || ![videoWriter canAddInput:writerInput]) {
                 if (completion) {
-                    completion(NO, nil);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completion(NO, nil);
+                    });
                 }
                 return;
             }
@@ -201,7 +209,7 @@ static inline CVPixelBufferRef ff_convertUIImageToBuffer(CGImageRef image , CGSi
             [videoWriter startSessionAtSourceTime:kCMTimeZero];
             
             //convert uiimage to CGImage.
-            CGFloat fps = 10;
+            CGFloat fps = 2 * self.fps;
             NSInteger frameCount = 0;
             
             for (int j = 0; j < 4; j ++) {
@@ -247,9 +255,13 @@ static inline CVPixelBufferRef ff_convertUIImageToBuffer(CGImageRef image , CGSi
                 
                 // wirte to album
                 [[[ALAssetsLibrary alloc] init] writeVideoAtPathToSavedPhotosAlbum:url completionBlock:^(NSURL *assetURL, NSError *error) {
+                    
+                    // remove tmp cache
+                    [[NSFileManager defaultManager] removeItemAtPath:[self videoPath] error:nil];
+                    
                     if (completion) {
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            completion(!error, error);
+                            completion(assetURL != nil, error);
                         });
                     }
                 }];
@@ -274,7 +286,7 @@ static inline CVPixelBufferRef ff_convertUIImageToBuffer(CGImageRef image , CGSi
                     [tmp addObject:image];
                 }
             }
-            _animatedImage = [UIImage animatedImageWithImages:tmp.copy duration:tmp.count * 0.1];
+            _animatedImage = [UIImage animatedImageWithImages:tmp.copy duration:tmp.count / self.fps];
         }
     }
     return _animatedImage;
@@ -298,7 +310,7 @@ static inline CVPixelBufferRef ff_convertUIImageToBuffer(CGImageRef image , CGSi
                 }
             }
             
-            _reserveAnimatedImage = [UIImage animatedImageWithImages:tmp.copy duration:tmp.count * 0.1];
+            _reserveAnimatedImage = [UIImage animatedImageWithImages:tmp.copy duration:tmp.count / self.fps];
         }
     }
     return _reserveAnimatedImage;

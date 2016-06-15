@@ -178,12 +178,16 @@ typedef void (^PropertyChangeBlock) (AVCaptureDevice *device);
 }
 
 - (void)screenShotTimerInvoke:(NSTimer *)timer {
+    // do animation
+    [self doKirakiraAnimation];
+    
+    //
     NSData *data = UIImageJPEGRepresentation(self.currentBufferImage, 0.5);
     if (data) {
         [self.imageDatas addObject:data];
         if (self.imageDatas.count >= self.screenShotTotalFrames) {
             if (self.screenShotCompleteHandler) {
-                self.screenShotCompleteHandler([FEFrameVideoItem itemWithDatas:self.imageDatas.copy], nil);
+                self.screenShotCompleteHandler([FEFrameVideoItem itemWithDatas:self.imageDatas.copy fps:1.0 / self.screenShotTimer.timeInterval], nil);
             }
             [timer invalidate];
             self.screenShotTimer = nil;
@@ -241,6 +245,30 @@ typedef void (^PropertyChangeBlock) (AVCaptureDevice *device);
     return (image);
 }
 
+- (void)doKirakiraAnimation {
+    UIView *view = [UIView new];
+    view.backgroundColor = [UIColor whiteColor];
+    view.alpha = 0.0;
+    view.frame = self.videoPreviewLayer.bounds;
+    
+    [self.videoPreviewLayer addSublayer:view.layer];
+    
+    [UIView animateWithDuration:self.screenShotTimer.timeInterval/2.0 animations:^{
+        view.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        [view.layer removeFromSuperlayer];
+    }];
+}
+
+- (void)changePreLayerOrientationWithCameraPosition:(AVCaptureDevicePosition)cameraPosition {
+    if (cameraPosition == AVCaptureDevicePositionBack) {
+        self.videoPreviewLayer.transform = CATransform3DIdentity;
+    }
+    else {
+        self.videoPreviewLayer.transform = CATransform3DMakeScale(-1, 1, 1);
+    }
+}
+
 #pragma mark getter&&setter
 - (void)setCameraPosition:(AVCaptureDevicePosition)cameraPosition {
     if (_cameraPosition != cameraPosition) {
@@ -250,7 +278,13 @@ typedef void (^PropertyChangeBlock) (AVCaptureDevice *device);
         NSError *error;
         AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
         if (!error) {
+            //
             [self changeDeviceInput:input];
+            
+            //
+            if (self.disableFrontCameraFlipEffect == YES) {
+                [self changePreLayerOrientationWithCameraPosition:cameraPosition];
+            }
         }
         else {
             NSLog(@"change input error");

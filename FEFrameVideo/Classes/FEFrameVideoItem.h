@@ -18,12 +18,12 @@
 
 @property (nonatomic, readonly) NSArray<NSData *> *imageDatas;
 
-+ (instancetype)itemWithDatas:(NSArray<NSData *> *)imageDatas;
+@property (nonatomic, readonly) CGFloat fps;
+
++ (instancetype)itemWithDatas:(NSArray<NSData *> *)imageDatas fps:(CGFloat)fps;
 
 - (void)saveGifToAlbumWithCompletion:(void (^)(BOOL succeed, NSError *error))compltetion;
 
 - (void)saveVideoToAlbumWithCompletion:(void (^)(BOOL succeed, NSError *error))completion;
-
-- (NSString *)videoPath;
 
 @end
