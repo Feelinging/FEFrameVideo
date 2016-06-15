@@ -115,6 +115,9 @@ typedef void (^PropertyChangeBlock) (AVCaptureDevice *device);
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
     if (sampleBuffer && self.screenShotTimer) {
         self.currentBufferImage = [self getImageFromSampleBufferRef:sampleBuffer];
+        if (self.cameraPosition == AVCaptureDevicePositionFront) {
+            
+        }
     }
 }
 
@@ -229,13 +232,17 @@ typedef void (^PropertyChangeBlock) (AVCaptureDevice *device);
     CGColorSpaceRelease(colorSpace);
     
     // Create an image object from the Quartz image
-    //UIImage *image = [UIImage imageWithCGImage:quartzImage];
     UIImage *image = [UIImage imageWithCGImage:quartzImage scale:[UIScreen mainScreen].scale orientation:UIImageOrientationRight];
+    
+    // if is front camera flip the image
+    if (self.cameraPosition == AVCaptureDevicePositionFront) {
+        image = [UIImage imageWithCGImage:image.CGImage scale:[UIScreen mainScreen].scale orientation:UIImageOrientationLeftMirrored];
+    }
     
     // Release the Quartz image
     CGImageRelease(quartzImage);
     
-    // make rotate
+    // make a image that orientation is UIImageOrientationUp
     CGSize size = CGSizeMake(height/[UIScreen mainScreen].scale, width/[UIScreen mainScreen].scale);
     UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
     [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
@@ -260,15 +267,6 @@ typedef void (^PropertyChangeBlock) (AVCaptureDevice *device);
     }];
 }
 
-- (void)changePreLayerOrientationWithCameraPosition:(AVCaptureDevicePosition)cameraPosition {
-    if (cameraPosition == AVCaptureDevicePositionBack) {
-        self.videoPreviewLayer.transform = CATransform3DIdentity;
-    }
-    else {
-        self.videoPreviewLayer.transform = CATransform3DMakeScale(-1, 1, 1);
-    }
-}
-
 #pragma mark getter&&setter
 - (void)setCameraPosition:(AVCaptureDevicePosition)cameraPosition {
     if (_cameraPosition != cameraPosition) {
@@ -280,11 +278,6 @@ typedef void (^PropertyChangeBlock) (AVCaptureDevice *device);
         if (!error) {
             //
             [self changeDeviceInput:input];
-            
-            //
-            if (self.disableFrontCameraFlipEffect == YES) {
-                [self changePreLayerOrientationWithCameraPosition:cameraPosition];
-            }
         }
         else {
             NSLog(@"change input error");

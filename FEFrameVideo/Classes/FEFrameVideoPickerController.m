@@ -49,7 +49,7 @@
         imageView.animationImages = self.item.reserveAnimatedImage.images;
         imageView.image = self.item.reserveAnimatedImage.images[0];
         imageView.animationRepeatCount = 0;
-        imageView.animationDuration = self.item.reserveAnimatedImage.images.count / self.item.fps;
+        imageView.animationDuration = self.item.reserveAnimatedImage.duration;
         [imageView startAnimating];
         
         [self.view addSubview:imageView];
@@ -154,8 +154,6 @@
     [super viewDidLoad];
     
     self.recorder = [[FEFrameVideoRecorder alloc] initWithCameraPosition:AVCaptureDevicePositionBack];
-    
-    self.recorder.disableFrontCameraFlipEffect = YES;
     
     [self initUI];
 }

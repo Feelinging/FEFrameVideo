@@ -21,10 +21,6 @@
  */
 @property (nonatomic, assign) AVCaptureDevicePosition cameraPosition;
 
-/**
- *  前置摄像头成像是否左右翻转，默认NO
- */
-@property (nonatomic, assign) BOOL disableFrontCameraFlipEffect;
 
 - (instancetype)initWithCameraPosition:(AVCaptureDevicePosition)position;
 

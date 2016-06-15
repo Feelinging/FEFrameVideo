@@ -310,7 +310,7 @@ static inline CVPixelBufferRef ff_convertUIImageToBuffer(CGImageRef image , CGSi
                 }
             }
             
-            _reserveAnimatedImage = [UIImage animatedImageWithImages:tmp.copy duration:tmp.count / self.fps];
+            _reserveAnimatedImage = [UIImage animatedImageWithImages:tmp.copy duration:tmp.count / (2 * self.fps)];
         }
     }
     return _reserveAnimatedImage;
